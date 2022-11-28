@@ -4,12 +4,15 @@ import javax.crypto.NoSuchPaddingException;
 import java.io.UnsupportedEncodingException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
+import java.util.UUID;
 
 public class Main {
     public static void main(String[] args) throws UnsupportedEncodingException, NoSuchPaddingException, IllegalBlockSizeException, NoSuchAlgorithmException, BadPaddingException, InvalidKeyException {
-        KDCServer kdc = new KDCServer("informationSecurity42424324","laboratory1232442332");
-        User Alice = new User("alice","IDalice","IDbob","informationSecurity42424324");
-        User Bob = new User ("bob","IDbob","IDalice","laboratory1232442332");
+        KDCServer kdc = new KDCServer("8e3MTnsHuQ","2hnsrYSSxl");
+        String aliceID = UUID.randomUUID().toString();
+        String bobID = UUID.randomUUID().toString();
+        User Alice = new User("alice",aliceID,bobID,"8e3MTnsHuQ");
+        User Bob = new User ("bob",bobID,aliceID,"2hnsrYSSxl");
         AnswerFromKDC answerFromKDC = kdc.request(Alice);
         AliceToBobMessage aliceToBobMessage = Alice.AliceVerification(answerFromKDC.getKdCtoBob(),
                 answerFromKDC.getKdCtoAlice());
