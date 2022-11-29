@@ -9,8 +9,6 @@ public class AliceToBobMessage {
         this.kdCtoBob = kdCtoBob;
     }
 
-    public AliceToBobMessage() { }
-
     public byte[] getCipheredIdAlice() {
         return cipheredIdAlice;
     }

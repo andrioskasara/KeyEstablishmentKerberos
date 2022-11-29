@@ -3,26 +3,27 @@ import java.sql.Time;
 import java.util.Random;
 
 public class Helper {
-
-    public static byte[] generateNonce(){
+    public static byte[] generateNonce() {
         SecureRandom secureRandom = new SecureRandom();
-        byte [] nonce = new byte[16];
+        byte[] nonce = new byte[16];
         secureRandom.nextBytes(nonce);
         return nonce;
     }
+
     public static byte[] generateSessionKey() {
-        Random randomNumber = new Random();
+        SecureRandom secureRandom = new SecureRandom();
         byte[] sessionKey = new byte[16];
-        randomNumber.nextBytes(sessionKey);
+        secureRandom.nextBytes(sessionKey);
         return sessionKey;
     }
 
-    public static Time generateTimestamp(){
-        return new Time(System.currentTimeMillis());
+    public static Time generateLifetime() {
+        Time lifetime = new Time(System.currentTimeMillis() + (300 * 10 * 1000));
+        return lifetime;
     }
 
-    public static Time generateLifetime(){
-        return new Time(System.currentTimeMillis() + (300*10*1000));
+    public static Time generateTimestamp() {
+        Time timestamp = new Time(System.currentTimeMillis());
+        return timestamp;
     }
-
 }

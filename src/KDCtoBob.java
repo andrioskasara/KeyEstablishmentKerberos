@@ -1,15 +1,12 @@
 public class KDCtoBob {
-    private byte [] cipheredSessionKey;
-    private byte [] cipheredIdAlice;
-    private byte [] cipheredLifetime;
+    private byte[] cipheredSessionKey;
+    private byte[] cipheredIdAlice;
+    private byte[] cipheredLifetime;
 
     public KDCtoBob(byte[] cipheredSessionKey, byte[] cipheredIdAlice, byte[] cipheredLifetime) {
         this.cipheredSessionKey = cipheredSessionKey;
         this.cipheredIdAlice = cipheredIdAlice;
         this.cipheredLifetime = cipheredLifetime;
-    }
-
-    public KDCtoBob() {
     }
 
     public byte[] getCipheredSessionKey() {

@@ -10,9 +10,8 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 
 public class AES {
-
     private SecretKeySpec secretKey;
-    private  byte[] key;
+    private byte[] key;
 
     public void setKey(String key) throws UnsupportedEncodingException, NoSuchAlgorithmException {
         MessageDigest messageDigest = null;
@@ -23,15 +22,15 @@ public class AES {
         secretKey = new SecretKeySpec(this.key, "AES");
     }
 
-    public byte[] decrypt(byte[] bytesToDecrypt) throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException {
-            Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5PADDING");
-            cipher.init(Cipher.DECRYPT_MODE, secretKey);
-            return cipher.doFinal(bytesToDecrypt);
+    public byte[] encrypt(byte[] bytesToEncrypt) throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException {
+        Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
+        cipher.init(Cipher.ENCRYPT_MODE, secretKey);
+        return cipher.doFinal(bytesToEncrypt);
     }
 
-    public byte[] encrypt(byte[] bytesToEncrypt) throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException {
-            Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
-            cipher.init(Cipher.ENCRYPT_MODE, secretKey);
-            return cipher.doFinal(bytesToEncrypt);
+    public byte[] decrypt(byte[] bytesToDecrypt) throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException {
+        Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5PADDING");
+        cipher.init(Cipher.DECRYPT_MODE, secretKey);
+        return cipher.doFinal(bytesToDecrypt);
     }
 }

@@ -1,17 +1,14 @@
 public class KDCtoAlice {
-    private byte [] cipheredSessionKey;
-    private byte [] cipheredNonce;
-    private byte [] cipheredLifetime;
-    private byte [] cipheredIdBob;
+    private byte[] cipheredSessionKey;
+    private byte[] cipheredNonce;
+    private byte[] cipheredLifetime;
+    private byte[] cipheredIdBob;
 
     public KDCtoAlice(byte[] cipheredSessionKey, byte[] cipheredNonce, byte[] cipheredLifetime, byte[] cipheredIdBob) {
         this.cipheredSessionKey = cipheredSessionKey;
         this.cipheredNonce = cipheredNonce;
         this.cipheredLifetime = cipheredLifetime;
         this.cipheredIdBob = cipheredIdBob;
-    }
-
-    public KDCtoAlice() {
     }
 
     public byte[] getCipheredSessionKey() {
