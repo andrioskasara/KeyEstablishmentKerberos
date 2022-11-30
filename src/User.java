@@ -7,21 +7,20 @@ import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.sql.Time;
 import java.util.Arrays;
 
 public class User {
-    private String username;
     private String userId;
     private String otherUserId;
     private String key;
     private byte[] nonce;
     private byte[] sessionKey;
 
-    public User(String username, String userId, String otherUserId, String key) {
-        this.username = username;
+    public User(String userId, String otherUserId, String key) {
         this.userId = userId;
         this.otherUserId = otherUserId;
         this.key = key;
@@ -29,7 +28,6 @@ public class User {
         this.nonce = Helper.generateNonce();
     }
 
-    // Verifikacija na yA i yB kaj Alice
     public AliceToBobMessage verificationAlice(KDCtoAlice kdCtoAlice, KDCtoBob kdCtoBob) throws UnsupportedEncodingException, NoSuchAlgorithmException, NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException, InvalidKeyException {
         AES aesAlice = new AES();
         aesAlice.setKey(this.key);
@@ -64,11 +62,9 @@ public class User {
         byte[] cipheredIdA = aesSession.encrypt(userId.getBytes());
         byte[] cipheredTimestamp = aesSession.encrypt(String.valueOf(timestamp.getTime()).getBytes());
 
-        AliceToBobMessage aliceToBobMessage = new AliceToBobMessage(cipheredIdA, cipheredTimestamp, kdCtoBob);
-        return aliceToBobMessage;
+        return new AliceToBobMessage(cipheredIdA, cipheredTimestamp, kdCtoBob);
     }
 
-    //Verifikacija na yAB i yB kaj Bob
     public void verificationBob(AliceToBobMessage aliceToBobMessage) throws UnsupportedEncodingException, NoSuchAlgorithmException, NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException, InvalidKeyException {
         AES aesBob = new AES();
         aesBob.setKey(key);
@@ -79,7 +75,7 @@ public class User {
         this.sessionKey = decryptedSessionKey;
 
         String lifetime = new String(decryptedLifetime);
-        Time time = new Time(Long.valueOf(lifetime));
+        Time time = new Time(Long.parseLong(lifetime));
 
         AES aesSession = new AES();
         String sessionKey = new String(this.sessionKey);
@@ -98,40 +94,30 @@ public class User {
         }
 
         String timestampString = new String(decryptedTimestamp);
-        Time timestamp = new Time(Long.valueOf(timestampString));
+        Time timestamp = new Time(Long.parseLong(timestampString));
         if (timestamp.after(time)) {
             throw new TimestampAfterLifetimeException();
         }
     }
 
-    //enripcija na porakata sto treba da se prati
     public byte[] encryptMessage(String message) throws UnsupportedEncodingException, NoSuchAlgorithmException, NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException, InvalidKeyException {
         AES aes = new AES();
         String key = new String(sessionKey);
         aes.setKey(key);
-        System.out.println("    Originalna poraka za prakanje: " + message);
+        System.out.println("Originalna poraka za prakanje: " + message);
         byte[] encryptedMessage =  aes.encrypt(message.getBytes());
-        System.out.println("    Enkriptirana poraka za prakanje: " + encryptedMessage);
+        System.out.println("Enkriptirana poraka za prakanje: " + new String(encryptedMessage, StandardCharsets.UTF_8));
         return encryptedMessage;
     }
 
-    //dekripcija na primenata poraka
     public void decryptMessage(byte[] message) throws UnsupportedEncodingException, NoSuchAlgorithmException, NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException, InvalidKeyException {
         AES aes = new AES();
         String key = new String(sessionKey);
         aes.setKey(key);
-        System.out.println("    Originalna primena poraka: " + message);
+        System.out.println("Originalna primena poraka: " + new String(message, StandardCharsets.UTF_8));
         byte[] decryptedMessage = aes.decrypt(message);
         String printMessage = new String(decryptedMessage);
-        System.out.println("    Dekriptirana primena poraka: " + printMessage);
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
+        System.out.println("Dekriptirana primena poraka: " + printMessage);
     }
 
     public String getUserId() {

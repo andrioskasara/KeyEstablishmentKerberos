@@ -11,8 +11,8 @@ public class Main {
         KDC kdc = new KDC("8e3MTnsHuQ","2hnsrYSSxl");
         String aliceID = UUID.randomUUID().toString();
         String bobID = UUID.randomUUID().toString();
-        User Alice = new User("alice",aliceID,bobID,"8e3MTnsHuQ");
-        User Bob = new User ("bob",bobID,aliceID,"2hnsrYSSxl");
+        User Alice = new User(aliceID,bobID,"8e3MTnsHuQ");
+        User Bob = new User (bobID,aliceID,"2hnsrYSSxl");
 
         AnswerFromKDC answerFromKDC = kdc.request(Alice);
 
@@ -21,9 +21,9 @@ public class Main {
 
         System.out.println("\nTEST SCENARIO");
         System.out.println("\n ALICE PRAKJA PORAKA NA BOB");
-        byte [] message = Alice.encryptMessage("Alice: Zdravo Bob!");
+        byte [] message1 = Alice.encryptMessage("Alice: Zdravo Bob!");
         System.out.println("\n BOB JA PRIMA PORAKATA");
-        Bob.decryptMessage(message);
+        Bob.decryptMessage(message1);
 
         System.out.println("\n BOB PRAKJA POVRATNA PORAKA NA ALICE");
         byte [] message2 = Bob.encryptMessage("Bob: Zdravo, kako si?");

@@ -7,8 +7,8 @@ import java.security.NoSuchAlgorithmException;
 import java.sql.Time;
 
 public class KDC {
-    private String keyAlice;
-    private String keyBob;
+    private final String keyAlice;
+    private final String keyBob;
 
     public KDC(String keyAlice, String keyBob) {
         this.keyAlice = keyAlice;
@@ -35,7 +35,6 @@ public class KDC {
         byte[] cipheredTimeBob = aesBob.encrypt(String.valueOf(lifetime.getTime()).getBytes());
         KDCtoBob kdCtoBob = new KDCtoBob(cipheredSessionKeyBob, cipheredIdAlice, cipheredTimeBob);
 
-        AnswerFromKDC answerFromKDC = new AnswerFromKDC(kdCtoAlice, kdCtoBob);
-        return answerFromKDC;
+        return new AnswerFromKDC(kdCtoAlice, kdCtoBob);
     }
 }

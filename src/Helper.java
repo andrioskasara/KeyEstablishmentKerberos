@@ -18,12 +18,10 @@ public class Helper {
     }
 
     public static Time generateLifetime() {
-        Time lifetime = new Time(System.currentTimeMillis() + (300 * 10 * 1000));
-        return lifetime;
+        return new Time(System.currentTimeMillis() + 1800000);
     }
 
     public static Time generateTimestamp() {
-        Time timestamp = new Time(System.currentTimeMillis());
-        return timestamp;
+        return new Time(System.currentTimeMillis());
     }
 }
