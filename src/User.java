@@ -56,8 +56,8 @@ public class User {
         Time timestamp = Helper.generateTimestamp();
 
         AES aesSession = new AES();
-        String SessionKey = new String(decryptedSessionKey);
-        aesSession.setKey(SessionKey);
+        String sessionKey = new String(decryptedSessionKey);
+        aesSession.setKey(sessionKey);
 
         byte[] cipheredIdA = aesSession.encrypt(userId.getBytes());
         byte[] cipheredTimestamp = aesSession.encrypt(String.valueOf(timestamp.getTime()).getBytes());
