@@ -1,6 +1,5 @@
 import java.security.SecureRandom;
 import java.sql.Time;
-import java.util.Random;
 
 public class Helper {
     public static byte[] generateNonce() {
